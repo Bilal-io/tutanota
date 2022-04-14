@@ -57,7 +57,7 @@ export class FileController {
 			} else {
 				// web client
 				let file = await this.downloadAndDecryptBrowser(tutanotaFile)
-				await this.openDataFile(file)
+				await this.saveDataFile(file)
 			}
 		})
 		return showProgressDialog("pleaseWait_msg", downloadPromise.then(noOp))
@@ -284,12 +284,12 @@ export class FileController {
 	/**
 	 * Does not delete temporary file in app.
 	 */
-	async openDataFile(file: DataFile): Promise<void> {
+	async saveDataFile(file: DataFile): Promise<void> {
 		if (isApp() || isDesktop()) {
 			// For apps "opening" DataFile currently means saving and opening it.
 			try {
-				const fileReference = await this.fileApp.saveDataFile(file)
-				return this.fileApp.open(fileReference)
+				await this.fileApp.saveDataFile(file)
+				// return this.fileApp.open(fileReference)
 			} catch (e) {
 				if (e instanceof CancelledError) {
 					// no-op. User cancelled file dialog

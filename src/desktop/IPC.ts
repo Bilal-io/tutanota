@@ -225,6 +225,7 @@ export class IPC {
 			case "open": {
 				// itemPath, mimeType
 				const itemPath = args[0].toString()
+				console.log("OPEN: " + itemPath)
 				return this._dl.open(itemPath)
 			}
 
